@@ -15,7 +15,10 @@ class CreateTableRealStatePhotos extends Migration
     {
         Schema::create('real_state_photos', function (Blueprint $table) {
             $table->id();
+            $table->string('photo');
+            $table->boolean('is_thumb');
             $table->timestamps();
+            $table->foreignId('real_state_id')->constrained('real_state');
         });
     }
 
