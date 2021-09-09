@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\RealState;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class RealStateController extends Controller
 {
@@ -23,7 +24,6 @@ class RealStateController extends Controller
 
     public function save(Request $request){
         $data = $request->all();
-
         if(!$data){
             return response()->json(['Error'=>'Invalid data sent!'],400);
         }
@@ -34,5 +34,15 @@ class RealStateController extends Controller
         if(!$realState->delete())
             return response()->json(['Error to remove, try later!']);
         return response()->json(['Property removed successfully!']);
+    }
+
+    public function update(RealState $realState, Request $request){
+        $data = $request->all();
+        if(!$data){
+            return response()->json(['Error'=>'Invalid data sent!'],400);
+        }
+        if($realState->update($data))
+            return response()->json($realState,201);
+        else return response()->json("Error to update register!",500);
     }
 }
