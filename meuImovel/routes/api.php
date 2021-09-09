@@ -22,5 +22,6 @@ Route::prefix('v1')->namespace('Api')->group(function (){
     Route::prefix('real-states')->name('real_states')->group(function (){
         Route::get('/',[\App\Http\Controllers\Api\RealStateController::class,'index']); #/api/v1/real-states/
         Route::post('/',[\App\Http\Controllers\Api\RealStateController::class,'save'])->middleware('auth.basic'); #/api/v1/real-states/
+        Route::delete('/{real_state}',[\App\Http\Controllers\Api\RealStateController::class,'remove'])->middleware('auth.basic'); #/api/v1/real-states/id
     });
 });
