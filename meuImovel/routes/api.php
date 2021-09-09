@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\Api\RealStateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->namespace('Api')->group(function (){
     Route::prefix('real-states')->name('real_states')->group(function (){
-        Route::get('/',[\App\Http\Controllers\Api\RealStateController::class,'index']); #/api/v1/real-states/
-        Route::post('/',[\App\Http\Controllers\Api\RealStateController::class,'save'])->middleware('auth.basic'); #/api/v1/real-states/
-        Route::delete('/{real_state}',[\App\Http\Controllers\Api\RealStateController::class,'remove'])->middleware('auth.basic'); #/api/v1/real-states/id
+        Route::get('/',[RealStateController::class,'index']); #/api/v1/real-states/
+        Route::post('/',[RealStateController::class,'save'])->middleware('auth.basic'); #/api/v1/real-states/
+        Route::delete('/{real_state}',[RealStateController::class,'remove'])->middleware('auth.basic'); #/api/v1/real-states/id
     });
 });
