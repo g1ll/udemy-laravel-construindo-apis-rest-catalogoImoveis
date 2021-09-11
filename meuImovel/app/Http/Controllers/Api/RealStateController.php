@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\RealState;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class RealStateController extends Controller
 {
@@ -15,6 +14,13 @@ class RealStateController extends Controller
     public function __construct(RealState $realState)
     {
         $this->realState = $realState;
+        $this->middleware('auth.basic',
+            ['except'=>
+                [
+                    'index',
+                    'show'
+                ]
+        ]);
     }
 
     public function index(){
@@ -22,10 +28,10 @@ class RealStateController extends Controller
         return response()->json($realState,200);
     }
 
-    public function show(RealState $realState){
-        if(!$realState)
+    public function show(RealState $real_state){
+        if(!$real_state)
             return response()->json(["Error, state not found"],404);
-        return response()->json($realState,200);
+        return response()->json($real_state,200);
     }
 
     public function store(Request $request){
@@ -36,19 +42,19 @@ class RealStateController extends Controller
         return response()->json(Auth::user()->real_state()->create($data),201);
     }
 
-    public function destroy(RealState $realState){
-        if(!$realState->delete())
+    public function destroy(RealState $real_state){
+        if(!$real_state->delete())
             return response()->json(['Error to remove, try later!']);
         return response()->json(['Property removed successfully!']);
     }
 
-    public function update(RealState $realState, Request $request){
+    public function update(RealState $real_state, Request $request){
         $data = $request->all();
         if(!$data){
             return response()->json(['Error'=>'Invalid data sent!'],400);
         }
-        if($realState->update($data))
-            return response()->json($realState,201);
+        if($real_state->update($data))
+            return response()->json($real_state,201);
         else return response()->json("Error to update register!",500);
     }
 }
