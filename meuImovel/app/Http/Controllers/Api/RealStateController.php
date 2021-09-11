@@ -28,7 +28,7 @@ class RealStateController extends Controller
         return response()->json($realState,200);
     }
 
-    public function save(Request $request){
+    public function store(Request $request){
         $data = $request->all();
         if(!$data){
             return response()->json(['Error'=>'Invalid data sent!'],400);
