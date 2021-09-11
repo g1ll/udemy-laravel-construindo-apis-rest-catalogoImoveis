@@ -29,10 +29,13 @@ class RealStateController extends Controller
         return response()->json($realState,200);
     }
 
-    public function show(RealState $real_state){
-        if(!$real_state)
-            return response()->json(["Error, state not found"],404);
-        return response()->json($real_state,200);
+    public function show($id){
+        try{
+            $real_state = $this->realState->findOrfail($id);
+            return response()->json(['data'=>$real_state],201);
+        }catch(Exception $error){
+            return response()->json(['Error'=>$error->getMessage()],400);
+        }
     }
 
     public function store(Request $request){
