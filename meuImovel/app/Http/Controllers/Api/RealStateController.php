@@ -50,10 +50,17 @@ class RealStateController extends Controller
         }
     }
 
-    public function destroy(RealState $real_state){
-        if(!$real_state->delete())
-            return response()->json(['Error to remove, try later!']);
-        return response()->json(['Property removed successfully!']);
+    public function destroy($id){
+        try{
+            $real_state = $this->realState->findOrfail($id);
+            $real_state->delete();
+            return response()->json(
+                [   'msg'=>'Registro excluído com sucesso!',
+                    'data'=>$real_state
+                ],201);
+        }catch(Exception $error){
+            return response()->json(['Error'=>$error->getMessage()],400);
+        }
     }
 
 //    public function update(RealState $real_state, Request $request){
