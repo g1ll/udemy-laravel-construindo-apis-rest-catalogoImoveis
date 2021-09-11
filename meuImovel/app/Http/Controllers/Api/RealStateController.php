@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RealStateRequest;
 use App\Models\RealState;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 
@@ -38,7 +38,7 @@ class RealStateController extends Controller
         }
     }
 
-    public function store(Request $request){
+    public function store(RealStateRequest $request){
         $data = $request->all();
         try{
             if(!$data){
@@ -67,7 +67,7 @@ class RealStateController extends Controller
     }
 
 //    public function update(RealState $real_state, Request $request){
-    public function update($id, Request $request){
+    public function update($id, RealStateRequest $request){
         $data = $request->all();
         try{
             if(!$data)
