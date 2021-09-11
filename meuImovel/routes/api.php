@@ -20,14 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function (){
-    Route::prefix('real-states')->name('real_states.')->group(function (){
+    Route::name('real_states.')->group(function (){
 //        Route::get('/',[RealStateController::class,'index']); #/api/v1/real-states/
 //        Route::get('/{real_state}',[RealStateController::class,'show']);
 //        Route::post('/',[RealStateController::class,'save'])->middleware('auth.basic'); #/api/v1/real-states/
 //        Route::delete('/{real_state}',[RealStateController::class,'remove'])->middleware('auth.basic'); #/api/v1/real-states/id
 //        Route::put('/{real_state}',[RealStateController::class,'update'])->middleware('auth.basic'); #/api/v1/real-states/id
-        Route::resource('/',RealStateController::class);
-
-
+        Route::apiResource('real-states',RealStateController::class);
     });
 });
