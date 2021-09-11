@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\RealState;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class RealStateController extends Controller
 {
@@ -36,10 +37,17 @@ class RealStateController extends Controller
 
     public function store(Request $request){
         $data = $request->all();
-        if(!$data){
-            return response()->json(['Error'=>'Invalid data sent!'],400);
+        try{
+            if(!$data){
+                throw new Exception("Error: Dados inválidos!");
+            }
+            return response()->json(
+                [   'msg'=>'Novo registro de imóvel inserido com sucesso!',
+                    'data'=>Auth::user()->real_state()->create($data)
+                ],201);
+        }catch(Exception $error) {
+            return response()->json(['Error' => $error->getMessage()], 401);
         }
-        return response()->json(Auth::user()->real_state()->create($data),201);
     }
 
     public function destroy(RealState $real_state){
