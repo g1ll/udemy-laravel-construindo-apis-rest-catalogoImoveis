@@ -56,13 +56,20 @@ class RealStateController extends Controller
         return response()->json(['Property removed successfully!']);
     }
 
-    public function update(RealState $real_state, Request $request){
+//    public function update(RealState $real_state, Request $request){
+    public function update($id, Request $request){
         $data = $request->all();
-        if(!$data){
-            return response()->json(['Error'=>'Invalid data sent!'],400);
+        try{
+            if(!$data)
+                throw new Exception("Error: Dados inválidos!");
+            $real_state = $this->realState->findOrfail($id);
+            $real_state->update($data);
+            return response()->json(
+                [   'msg'=>'Registro atualizado com sucesso!',
+                    'data'=>$real_state
+                ],201);
+        }catch(Exception $error){
+            return response()->json(['Error'=>$error->getMessage()],400);
         }
-        if($real_state->update($data))
-            return response()->json($real_state,201);
-        else return response()->json("Error to update register!",500);
     }
 }
