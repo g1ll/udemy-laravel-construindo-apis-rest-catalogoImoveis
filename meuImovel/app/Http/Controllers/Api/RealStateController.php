@@ -36,7 +36,7 @@ class RealStateController extends Controller
         return response()->json(Auth::user()->real_state()->create($data),201);
     }
 
-    public function remove(RealState $realState){
+    public function destroy(RealState $realState){
         if(!$realState->delete())
             return response()->json(['Error to remove, try later!']);
         return response()->json(['Property removed successfully!']);
