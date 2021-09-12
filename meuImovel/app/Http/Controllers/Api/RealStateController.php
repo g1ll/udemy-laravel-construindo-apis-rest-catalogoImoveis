@@ -30,9 +30,9 @@ class RealStateController extends Controller
         return response()->json($realState,200);
     }
 
-    public function show($id){
+    //Using model bind, require header "Accept=application/json" to avoid redirection to NOT FOUND Laravel page.
+    public function show(RealState $real_state){
         try{
-            $real_state = $this->realState->findOrfail($id);
             return response()->json(['data'=>$real_state],201);
         }catch(Exception $error){
             $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
