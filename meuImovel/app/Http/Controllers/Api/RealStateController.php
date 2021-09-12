@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RealStateRequest;
 use App\Models\RealState;
@@ -34,7 +35,8 @@ class RealStateController extends Controller
             $real_state = $this->realState->findOrfail($id);
             return response()->json(['data'=>$real_state],201);
         }catch(Exception $error){
-            return response()->json(['Error'=>$error->getMessage()],400);
+            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            return response()->json($message->getMessage(),400);
         }
     }
 
@@ -49,7 +51,8 @@ class RealStateController extends Controller
                     'data'=>Auth::user()->real_state()->create($data)
                 ],201);
         }catch(Exception $error) {
-            return response()->json(['Error' => $error->getMessage()], 401);
+            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            return response()->json($message->getMessage(),400);
         }
     }
 
@@ -62,7 +65,8 @@ class RealStateController extends Controller
                     'data'=>$real_state
                 ],201);
         }catch(Exception $error){
-            return response()->json(['Error'=>$error->getMessage()],400);
+            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            return response()->json($message->getMessage(),400);
         }
     }
 
@@ -79,7 +83,8 @@ class RealStateController extends Controller
                     'data'=>$real_state
                 ],201);
         }catch(Exception $error){
-            return response()->json(['Error'=>$error->getMessage()],400);
+            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            return response()->json($message->getMessage(),400);
         }
     }
 }
