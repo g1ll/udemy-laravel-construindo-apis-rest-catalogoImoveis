@@ -43,7 +43,8 @@ class UserController extends Controller
             }
             return response()->json(
                 [   'msg'=>'Novo Usuário inserido com sucesso!',
-                    'data'=>Auth::user()->create($data)
+//                    'data'=>Auth::user()->create($data)
+                    'data'=>User::create($data)
                 ],201);
         }catch(Exception $error) {
             $message = new ApiMessages("Ocorreu um erro!",[$error->getMessage()]);
