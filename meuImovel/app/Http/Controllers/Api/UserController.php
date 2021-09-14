@@ -46,6 +46,8 @@ class UserController extends Controller
             if(!$data){
                 throw new Exception("Error: Dados inválidos!");
             }
+            if(isset($data['password']))
+                $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
             return response()->json(
                 [   'msg'=>'Novo Usuário inserido com sucesso!',
                     'data'=>Auth::user()->create($data)
@@ -84,6 +86,8 @@ class UserController extends Controller
         try{
             if(!$data)
                 throw new Exception("Error: Dados inválidos!");
+            if(isset($data['password']))
+                $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
             $user = $this->user->findOrfail($id);
             $user->update($data);
             return response()->json(
