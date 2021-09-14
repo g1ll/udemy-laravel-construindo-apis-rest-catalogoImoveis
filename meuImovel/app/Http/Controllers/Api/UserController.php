@@ -71,11 +71,23 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update($id, Request $request){
+        $data = $request->all();
+        try{
+            if(!$data)
+                throw new Exception("Error: Dados inválidos!");
+            $user = $this->user->findOrfail($id);
+            $user->update($data);
+            return response()->json(
+                [   'msg'=>'Usuário atualizado com sucesso!',
+                    'data'=>$user
+                ],201);
+        }catch(Exception $error){
+            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            return response()->json($message->getMessage(),400);
+        }
     }
 
     /**
