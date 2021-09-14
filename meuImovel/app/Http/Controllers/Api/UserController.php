@@ -94,10 +94,19 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+        try{
+            $user = $this->user->findOrfail($id);
+            $user->delete();
+            return response()->json(
+                [   'msg'=>'Usuário removido com sucesso!',
+                    'data'=>$user
+                ],201);
+        }catch(Exception $error){
+            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            return response()->json($message->getMessage(),400);
+        }
     }
 }
