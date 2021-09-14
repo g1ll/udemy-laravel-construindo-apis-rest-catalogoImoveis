@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -34,11 +35,18 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(User $user){
+    public function store(Request $request){
+        $data = $request->all();
         try{
-            return response()->json(['data'=>$user],201);
-        }catch(Exception $error){
-            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            if(!$data){
+                throw new Exception("Error: Dados inválidos!");
+            }
+            return response()->json(
+                [   'msg'=>'Novo Usuário inserido com sucesso!',
+                    'data'=>Auth::user()->create($data)
+                ],201);
+        }catch(Exception $error) {
+            $message = new ApiMessages("Ocorreu um erro!",[$error->getMessage()]);
             return response()->json($message->getMessage(),400);
         }
     }
@@ -46,12 +54,16 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  User  $user
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
-    {
-        //
+    public function show(User $user){
+        try{
+            return response()->json(['data'=>$user],201);
+        }catch(Exception $error){
+            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            return response()->json($message->getMessage(),400);
+        }
     }
 
     /**
