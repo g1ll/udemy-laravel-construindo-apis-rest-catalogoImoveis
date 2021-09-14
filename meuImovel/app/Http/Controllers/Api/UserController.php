@@ -16,6 +16,11 @@ class UserController extends Controller
     public function __construct(User $user)
     {
         $this->user = $user;
+        $this->middleware('auth.basic',[
+            'except'=>[
+                'index',
+                'show'
+            ]]);
     }
 
     /**
@@ -43,8 +48,8 @@ class UserController extends Controller
             }
             return response()->json(
                 [   'msg'=>'Novo Usuário inserido com sucesso!',
-//                    'data'=>Auth::user()->create($data)
-                    'data'=>User::create($data)
+                    'data'=>Auth::user()->create($data)
+//                    'data'=>User::create($data)//Test for unauthenticated
                 ],201);
         }catch(Exception $error) {
             $message = new ApiMessages("Ocorreu um erro!",[$error->getMessage()]);
