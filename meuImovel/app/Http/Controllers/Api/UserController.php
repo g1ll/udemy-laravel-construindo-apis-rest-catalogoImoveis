@@ -93,6 +93,7 @@ class UserController extends Controller
 
             if($request->has('password') && $request->get('password'))
                 $data['password'] = bcrypt($data['password']); //Using directly bcrypt function
+            else unset($data['password']);//Force to remove the password field if empty;
 
             $user = $this->user->findOrfail($id);
             $user->update($data);
