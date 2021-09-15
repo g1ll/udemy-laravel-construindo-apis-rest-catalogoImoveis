@@ -50,7 +50,7 @@ class UserController extends Controller
                 throw new Exception("É necessário informar uma senha para o usuário!");
 
             if(isset($data['password']))
-                $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+                $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);//using defaul php crypt (today is bcrypt)
 
             return response()->json(
                 [   'msg'=>'Novo Usuário inserido com sucesso!',
@@ -90,10 +90,13 @@ class UserController extends Controller
         try{
             if(!$data)
                 throw new Exception("Error: Dados inválidos!");
-            if(isset($data['password']))
-                $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+
+            if($request->has('password') && $request->get('password'))
+                $data['password'] = bcrypt($data['password']); //Using directly bcrypt function
+
             $user = $this->user->findOrfail($id);
             $user->update($data);
+
             return response()->json(
                 [   'msg'=>'Usuário atualizado com sucesso!',
                     'data'=>$user
