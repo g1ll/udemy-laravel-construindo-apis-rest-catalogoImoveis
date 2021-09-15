@@ -43,11 +43,15 @@ class UserController extends Controller
     public function store(Request $request){
         $data = $request->all();
         try{
-            if(!$data){
+            if(!$data)
                 throw new Exception("Error: Dados inválidos!");
-            }
+
+            if(!$request->has('password')||!$request->get('password'))
+                throw new Exception("É necessário informar uma senha para o usuário!");
+
             if(isset($data['password']))
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+
             return response()->json(
                 [   'msg'=>'Novo Usuário inserido com sucesso!',
                     'data'=>Auth::user()->create($data)
