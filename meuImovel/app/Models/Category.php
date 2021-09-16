@@ -9,4 +9,8 @@ class Category extends Model
 {
     use HasFactory;
     protected $fillable = ['name','description','slug'];
+
+    public function real_states(){
+        $this->belongsToMany(RealState::class);
+    }
 }
