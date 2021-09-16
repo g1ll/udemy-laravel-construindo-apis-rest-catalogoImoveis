@@ -48,8 +48,7 @@ class UserController extends Controller
 
             if(!$request->has('password')||!$request->get('password'))
                 throw new Exception("É necessário informar uma senha para o usuário!");
-
-            if(isset($data['password']))
+            else
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);//using defaul php crypt (today is bcrypt)
 
             return response()->json(
