@@ -84,6 +84,10 @@ class RealStateController extends Controller
                 throw new Exception("Error: Dados inválidos!");
             $real_state = $this->realState->findOrfail($id);
             $real_state->update($data);
+
+            if(isset($data['categories'])&&count($data['categories']))
+                $real_state->categories()->sync($data['categories']);
+
             return response()->json(
                 [   'msg'=>'Registro atualizado com sucesso!',
                     'data'=>$real_state
