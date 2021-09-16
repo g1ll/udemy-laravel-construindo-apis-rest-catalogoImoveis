@@ -46,9 +46,15 @@ class RealStateController extends Controller
             if(!$data){
                 throw new Exception("Error: Dados inválidos!");
             }
+
+            $realState = Auth::user()->real_state()->create($data);
+
+            if(isset($data['categories'])&&count($data['categories']))
+                $realState->categories()->sync($data['categories']);
+
             return response()->json(
                 [   'msg'=>'Novo registro de imóvel inserido com sucesso!',
-                    'data'=>Auth::user()->real_state()->create($data)
+                    'data'=>$realState
                 ],201);
         }catch(Exception $error) {
             $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
