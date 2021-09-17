@@ -98,6 +98,15 @@ class UserController extends Controller
     public function update($id, Request $request){
         $data = $request->all();
         try{
+            $validation = validator($data['profile'],[
+                'phone' => 'required',
+                'mobile_phone' => 'required'
+            ]);
+
+            if($validation->fails())
+                throw new Exception("Error: Dados inválidos!");
+
+
             if(!$data)
                 throw new Exception("Error: Dados inválidos!");
 
@@ -107,13 +116,19 @@ class UserController extends Controller
 
             $user = $this->user->findOrfail($id);
             $user->update($data);
+            $profile = $data['profile'];
+            $profile['social_networks'] = serialize($profile['social_networks']);
+            $user->profile()->update($profile);
 
             return response()->json(
                 [   'msg'=>'Usuário atualizado com sucesso!',
                     'data'=>$user
                 ],201);
         }catch(Exception $error){
-            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
+            $message = new ApiMessages("Ocorreu um erro!",[
+                'msg'=>$error->getMessage(),
+                'validation'=>$validation->errors()
+            ]);
             return response()->json($message->getMessage(),400);
         }
     }
