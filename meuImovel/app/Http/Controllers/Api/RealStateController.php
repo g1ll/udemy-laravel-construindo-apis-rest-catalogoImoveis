@@ -48,7 +48,6 @@ class RealStateController extends Controller
             }
 
             $realState = Auth::user()->real_state()->create($data);
-
             if(isset($data['categories'])&&count($data['categories']))
                 $realState->categories()->sync($data['categories']);
 
