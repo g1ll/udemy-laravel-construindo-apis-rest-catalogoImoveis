@@ -60,7 +60,9 @@ class UserController extends Controller
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);//using defaul php crypt (today is bcrypt)
 
             $user = Auth::user()->create($data);
-            $user->profile()->create($data['profile']);
+            $profile = $data['profile'];
+            $profile['social_networks'] = serialize($profile['social_networks']);
+            $user->profile()->create($profile);
 
             return response()->json(
                 [   'msg'   => 'Novo Usuário inserido com sucesso!',
@@ -68,7 +70,10 @@ class UserController extends Controller
 //                    'data'=>User::create($data)//Test for unauthenticated
                 ],201);
         }catch(Exception $error) {
-            $message = new ApiMessages("Ocorreu um erro!",['msg'=>$error->getMessage(),'validation'=>$validation->errors()]);
+            $message = new ApiMessages("Ocorreu um erro!",[
+                'msg'=>$error->getMessage(),
+                'validation'=>$validation->errors()
+            ]);
             return response()->json($message->getMessage(),400);
         }
     }
