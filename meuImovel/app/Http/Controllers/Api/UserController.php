@@ -43,6 +43,14 @@ class UserController extends Controller
     public function store(Request $request){
         $data = $request->all();
         try{
+
+            $validation = validator($data,[
+                'phone' => 'required',
+                'mobile_phone' => 'required'
+             ]);
+            if($validation->fails())
+                throw new Exception(['msg'=>"Error: Dados inválidos!",'error'=>$validation->errors()]);
+
             if(!$data)
                 throw new Exception("Error: Dados inválidos!");
 
@@ -51,9 +59,15 @@ class UserController extends Controller
             else
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);//using defaul php crypt (today is bcrypt)
 
+            $user = Auth::user()->create($data);
+            $user->profile()->create([
+                'phone'=>$data['phone'],
+                'mobile_phone'=>$data['mobile_phone']
+            ]);
+
             return response()->json(
-                [   'msg'=>'Novo Usuário inserido com sucesso!',
-                    'data'=>Auth::user()->create($data)
+                [   'msg'   => 'Novo Usuário inserido com sucesso!',
+                    'data'  => $user
 //                    'data'=>User::create($data)//Test for unauthenticated
                 ],201);
         }catch(Exception $error) {
