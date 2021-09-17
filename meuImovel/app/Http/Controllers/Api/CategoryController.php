@@ -21,7 +21,8 @@ class CategoryController extends Controller
         $this->middleware('auth.basic',[
             'except'=>[
                 'index',
-                'show'
+                'show',
+                'realStates'
             ]]);
     }
 
@@ -137,4 +138,17 @@ class CategoryController extends Controller
             return response()->json($message->getMessage(), 401);
         }
     }
+
+    public function realStates($id){
+        try{
+            $category = $this->category->findOrFail($id);
+            return response()->json([
+                'data'=>$category->real_states
+            ],200);
+        }catch(\Exception $e){
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
+        }
+    }
+
 }
