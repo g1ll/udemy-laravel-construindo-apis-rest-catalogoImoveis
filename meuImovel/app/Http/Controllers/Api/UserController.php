@@ -44,7 +44,7 @@ class UserController extends Controller
         $data = $request->all();
         try{
 
-            $validation = validator($data,[
+            $validation = validator($data['profile'],[
                 'phone' => 'required',
                 'mobile_phone' => 'required'
              ]);
@@ -60,10 +60,7 @@ class UserController extends Controller
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);//using defaul php crypt (today is bcrypt)
 
             $user = Auth::user()->create($data);
-            $user->profile()->create([
-                'phone'=>$data['phone'],
-                'mobile_phone'=>$data['mobile_phone']
-            ]);
+            $user->profile()->create($data['profile']);
 
             return response()->json(
                 [   'msg'   => 'Novo Usuário inserido com sucesso!',
