@@ -49,10 +49,10 @@ class UserController extends Controller
                 'mobile_phone' => 'required'
              ]);
             if($validation->fails())
-                throw new Exception(['msg'=>"Error: Dados inválidos!",'error'=>$validation->errors()]);
+                throw new Exception("Error: Dados inválidos!");
 
             if(!$data)
-                throw new Exception("Error: Dados inválidos!");
+                throw new Exception("Dados inválidos!");
 
             if(!$request->has('password')||!$request->get('password'))
                 throw new Exception("É necessário informar uma senha para o usuário!");
@@ -71,7 +71,7 @@ class UserController extends Controller
 //                    'data'=>User::create($data)//Test for unauthenticated
                 ],201);
         }catch(Exception $error) {
-            $message = new ApiMessages("Ocorreu um erro!",[$error->getMessage()]);
+            $message = new ApiMessages("Ocorreu um erro!",['msg'=>$error->getMessage(),'validation'=>$validation->errors()]);
             return response()->json($message->getMessage(),400);
         }
     }
