@@ -11,6 +11,6 @@ class Category extends Model
     protected $fillable = ['name','description','slug'];
 
     public function real_states(){
-        $this->belongsToMany(RealState::class);
+        return $this->belongsToMany(RealState::class,'real_state_categories');
     }
 }
