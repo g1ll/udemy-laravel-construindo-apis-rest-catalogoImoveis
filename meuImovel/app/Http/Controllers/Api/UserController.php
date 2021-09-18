@@ -44,15 +44,17 @@ class UserController extends Controller
         $data = $request->all();
         try{
 
-            $validation = validator($data['profile'],[
-                'phone' => 'required',
-                'mobile_phone' => 'required'
-             ]);
-            if($validation->fails())
-                throw new Exception("Error: Dados inválidos!");
-
             if(!$data)
                 throw new Exception("Dados inválidos!");
+
+            if(isset($data['profile'])){
+                $validation = validator($data['profile'],[
+                    'phone' => 'required',
+                    'mobile_phone' => 'required'
+                ]);
+                if($validation->fails())
+                    throw new Exception("Error: Dados inválidos!");
+            }
 
             if(!$request->has('password')||!$request->get('password'))
                 throw new Exception("É necessário informar uma senha para o usuário!");
@@ -60,20 +62,21 @@ class UserController extends Controller
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);//using defaul php crypt (today is bcrypt)
 
             $user = Auth::user()->create($data);
-            $profile = $data['profile'];
-            $profile['social_networks'] = serialize($profile['social_networks']);
-            $user->profile()->create($profile);
-
+            if(isset($data['profile'])){
+                $profile = $data['profile'];
+                $profile['social_networks'] = serialize($profile['social_networks']);
+                $user->profile()->create($profile);
+            }
             return response()->json(
                 [   'msg'   => 'Novo Usuário inserido com sucesso!',
                     'data'  => $user
 //                    'data'=>User::create($data)//Test for unauthenticated
                 ],201);
         }catch(Exception $error) {
-            $message = new ApiMessages("Ocorreu um erro!",[
-                'msg'=>$error->getMessage(),
-                'validation'=>$validation->errors()
-            ]);
+            $erro_msg['msg'] = $error->getMessage();
+            if(isset($validation))
+                $erro_msg['validation'] = $validation->errors();
+            $message = new ApiMessages("Ocorreu um erro!",$erro_msg);
             return response()->json($message->getMessage(),400);
         }
     }
