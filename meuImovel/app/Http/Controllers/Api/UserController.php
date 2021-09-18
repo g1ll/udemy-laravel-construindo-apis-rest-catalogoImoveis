@@ -86,7 +86,9 @@ class UserController extends Controller
      */
     public function show(User $user){
         try{
-            return response()->json(['data'=>$user->load('profile')],201);
+            $user = $user->load('profile');
+            $user['profile']['social_networks'] = unserialize($user['profile']['social_networks']);
+            return response()->json(['data'=>$user],201);
         }catch(Exception $error){
             $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
             return response()->json($message->getMessage(),400);
