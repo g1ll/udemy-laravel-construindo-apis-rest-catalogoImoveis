@@ -90,7 +90,7 @@ class UserController extends Controller
     public function show(User $user){
         try{
             $user = $user->load('profile');
-            $user['profile']['social_networks'] = unserialize($user['profile']['social_networks']);
+            $user['profile']['social_networks'] = unserialize($user->profile->social_networks);
             return response()->json(['data'=>$user],201);
         }catch(Exception $error){
             $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
