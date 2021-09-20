@@ -12,4 +12,8 @@ class RealStatePhoto extends Model
         'photo',
         'is_thumb'
     ];
+
+    public function real_state(){
+        return $this->belongsTo(RealState::class);
+    }
 }
