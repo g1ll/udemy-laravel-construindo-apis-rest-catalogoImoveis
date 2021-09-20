@@ -42,14 +42,21 @@ class RealStateController extends Controller
 
     public function store(RealStateRequest $request){
         $data = $request->all();
+        $images = $request->file('images');
         try{
-            if(!$data){
+            if(!$data)
                 throw new Exception("Error: Dados inválidos!");
-            }
 
             $realState = Auth::user()->real_state()->create($data);
+
             if(isset($data['categories'])&&count($data['categories']))
                 $realState->categories()->sync($data['categories']);
+
+            if($images)
+                foreach ($images as $img) {
+                    $img->store('images','public');
+//                    dd($path);
+                }
 
             return response()->json(
                 [   'msg'=>'Novo registro de imóvel inserido com sucesso!',
