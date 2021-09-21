@@ -91,6 +91,7 @@ class RealStateController extends Controller
 //    public function update(RealState $real_state, Request $request){
     public function update($id, RealStateRequest $request){
         $data = $request->all();
+        $images = $request->file('images');
         try{
             if(!$data)
                 throw new Exception("Error: Dados inválidos!");
@@ -99,6 +100,18 @@ class RealStateController extends Controller
 
             if(isset($data['categories'])&&count($data['categories']))
                 $real_state->categories()->sync($data['categories']);
+
+            if($images) {
+                $imagesUploaded = [];
+                foreach ($images as $img) {
+                    $path = $img->store('images', 'public');
+                    $imagesUploaded[] = [
+                        'photo'=>$path,
+                        'is_thumb'=> false
+                    ];
+                }
+                $real_state->photos()->createMany($imagesUploaded);
+            }
 
             return response()->json(
                 [   'msg'=>'Registro atualizado com sucesso!',
