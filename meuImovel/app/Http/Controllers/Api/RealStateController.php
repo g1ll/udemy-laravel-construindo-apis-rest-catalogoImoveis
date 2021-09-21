@@ -52,11 +52,17 @@ class RealStateController extends Controller
             if(isset($data['categories'])&&count($data['categories']))
                 $realState->categories()->sync($data['categories']);
 
-            if($images)
+            if($images) {
+                $imagesUploaded = [];
                 foreach ($images as $img) {
-                    $img->store('images','public');
-//                    dd($path);
+                    $path = $img->store('images', 'public');
+                    $imagesUploaded[] = [
+                        'photo'=>$path,
+                        'is_thumb'=> false
+                    ];
                 }
+                $realState->photos()->createMany($imagesUploaded);
+            }
 
             return response()->json(
                 [   'msg'=>'Novo registro de imóvel inserido com sucesso!',
