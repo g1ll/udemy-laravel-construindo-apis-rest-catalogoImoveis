@@ -25,9 +25,11 @@ class RealStatePhotoController extends Controller
 //            if($photo->count())$photo->first()->update(['is_thumb'=>false]);
 
             $photo = $this->realStatePhoto->find($photoId);
-            if($photo)
-                $photo->update(['is_thumb' => !$photo->is_thumb]);
 
+            if(!$photo)
+                throw new \Exception("Error to find photo with id $photoId!");
+
+            $photo->update(['is_thumb' => !$photo->is_thumb]);
             return response()->json(['msg'=>'Thumb atualizada'],201);
 
         }catch (\Exception $e){
