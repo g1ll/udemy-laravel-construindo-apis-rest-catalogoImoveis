@@ -50,10 +50,10 @@ class RealStatePhotoController extends Controller
         try{
             $photo = $this->realStatePhoto->find($photoId);
 
-            if($photo->is_thumb)
-                throw new \Exception("Remove thumb is doesn't possible! Select another thumb and try again!");
-
             if($photo) {
+                if($photo->is_thumb)
+                    throw new \Exception("Remove thumb is doesn't possible! Select another thumb and try again!");
+
                 Storage::disk('public')->delete($photo->photo);
                 $photo->delete();
             }
