@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Models\RealStatePhoto;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RealStatePhotoController extends Controller
 {
@@ -41,11 +41,22 @@ class RealStatePhotoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $photoId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($photoId)
     {
-        //
+        try{
+            $photo = $this->realStatePhoto->find($photoId);
+            if($photo) {
+                Storage::disk('public')->delete($photo->photo);
+                $photo->delete();
+            }
+            return response()->json(['msg'=>'Photo removida com sucesso !!!'],201);
+
+        }catch (\Exception $e){
+            $message = new ApiMessages("An error occurred!",[$e->getMessage()]);
+            return response()->json($message->getMessage(),400);
+        }
     }
 }
