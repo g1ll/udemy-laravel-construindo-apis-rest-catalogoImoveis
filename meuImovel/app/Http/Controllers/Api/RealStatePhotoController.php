@@ -18,16 +18,15 @@ class RealStatePhotoController extends Controller
 
     public function setThumb($photoId, $realStateId){
         try{
-            $this->realStatePhoto
-                ->where('real_state_id',$realStateId)
-                ->where('is_thumb',true)->first();
+//            $photo = $this->realStatePhoto
+//                ->where('real_state_id',$realStateId)
+//                ->where('is_thumb',true)->first();
+//
+//            if($photo->count())$photo->first()->update(['is_thumb'=>false]);
 
             $photo = $this->realStatePhoto->find($photoId);
-
-            if($photo->count())$photo->update(['is_thumb'=>false]);
-
-            $photo = $this->realStatePhoto->find($photoId);
-            $photo->update(['is_thumb' => true]);
+            if($photo)
+                $photo->update(['is_thumb' => !$photo->is_thumb]);
 
             return response()->json(['msg'=>'Thumb atualizada'],201);
 
