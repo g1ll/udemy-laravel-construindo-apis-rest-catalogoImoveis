@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\RealStatePhotoController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,10 @@ Route::prefix('v1')->group(function (){
         Route::apiResource('categories',CategoryController::class);
         Route::get('categories/{id}/real-states',[CategoryController::class,'realStates']);
     });
+
+    Route::name('photos.')->prefix('photos')->group(function(){
+        Route::delete('/{id}',[RealStatePhotoController::class,'destroy'])->name('delete');
+    });
+
+
 });
