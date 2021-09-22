@@ -49,10 +49,15 @@ class RealStatePhotoController extends Controller
     {
         try{
             $photo = $this->realStatePhoto->find($photoId);
+
+            if($photo->is_thumb)
+                throw new \Exception("Remove thumb is doesn't possible!");
+
             if($photo) {
                 Storage::disk('public')->delete($photo->photo);
                 $photo->delete();
             }
+
             return response()->json(['msg'=>'Photo removida com sucesso !!!'],201);
 
         }catch (\Exception $e){
