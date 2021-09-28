@@ -135,11 +135,10 @@ class UserController extends Controller
                     'data'=>$user
                 ],201);
         }catch(Exception $error){
-            $message = new ApiMessages("Ocorreu um erro!",[
+            return $this->errorMessage([
                 'msg'=>$error->getMessage(),
                 'validation'=>$validation->errors()
             ]);
-            return response()->json($message->getMessage(),400);
         }
     }
 
@@ -158,8 +157,16 @@ class UserController extends Controller
                     'data'=>$user
                 ],201);
         }catch(Exception $error){
-            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
-            return response()->json($message->getMessage(),400);
+            return $this->errorMessage([$error->getMessage()]);
         }
+    }
+
+    /**
+     *  @param  array  $messages
+     * @return \Illuminate\Http\JsonResponse
+    */
+    private function errorMessage($messages){
+        $message = new ApiMessages("Ocorreu um erro!",$messages);
+        return response()->json($message->getMessage(),400);
     }
 }
