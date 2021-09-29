@@ -160,11 +160,13 @@ class UserController extends Controller
     }
 
     /**
-     *  @param  array  $messages
+     * Return the message of error in json format with the code
+     * @param  array  $messages
+     * @param  int  $code
      * @return \Illuminate\Http\JsonResponse
     */
-    private function errorMessage($messages){
+    private function errorMessage($messages, $code = 400){
         $message = new ApiMessages("Ocorreu um erro!",$messages);
-        return response()->json($message->getMessage(),400);
+        return response()->json($message->getMessage(),$code);
     }
 }
