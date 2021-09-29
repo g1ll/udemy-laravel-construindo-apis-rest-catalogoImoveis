@@ -92,7 +92,7 @@ class UserController extends Controller
             $user['profile']['social_networks'] = unserialize($user->profile->social_networks);
             return response()->json(['data'=>$user],201);
         }catch(Exception $error){
-            return $this->errorMessage([$error->getMessage()]);
+            return $this->errorMessage([$error->getMessage()],404);
         }
     }
 
@@ -136,7 +136,7 @@ class UserController extends Controller
             return $this->errorMessage([
                 'msg'=>$error->getMessage(),
                 'validation'=>$validation->errors()
-            ]);
+            ],401);
         }
     }
 
