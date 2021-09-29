@@ -76,8 +76,7 @@ class UserController extends Controller
             $erro_msg['msg'] = $error->getMessage();
             if(isset($validation))
                 $erro_msg['validation'] = $validation->errors();
-            $message = new ApiMessages("Ocorreu um erro!",$erro_msg);
-            return response()->json($message->getMessage(),400);
+            return $this->errorMessage([$erro_msg]);
         }
     }
 
