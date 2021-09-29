@@ -93,8 +93,7 @@ class UserController extends Controller
             $user['profile']['social_networks'] = unserialize($user->profile->social_networks);
             return response()->json(['data'=>$user],201);
         }catch(Exception $error){
-            $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
-            return response()->json($message->getMessage(),400);
+            return $this->errorMessage([$error->getMessage()]);
         }
     }
 
