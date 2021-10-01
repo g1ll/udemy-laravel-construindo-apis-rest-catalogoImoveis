@@ -90,7 +90,7 @@ class UserController extends Controller
         try{
             $user = $user->load('profile');
             $user['profile']['social_networks'] = unserialize($user->profile->social_networks);
-            return response()->json(['data'=>$user],201);
+            return response()->json(['data'=>$user,'iprequest'=>request()->ip()],201);
         }catch(Exception $error){
             return $this->errorMessage([$error->getMessage()],404);
         }
