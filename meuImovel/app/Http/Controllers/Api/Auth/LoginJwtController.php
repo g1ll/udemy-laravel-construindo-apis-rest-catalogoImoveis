@@ -14,7 +14,6 @@ class LoginJwtController extends Controller
             $message = new ApiMessages("Unauthorized");
             return response()->json($message->getMessage(),401);
         }
-
         return response()->json([
             'token'=>$token
         ]);
