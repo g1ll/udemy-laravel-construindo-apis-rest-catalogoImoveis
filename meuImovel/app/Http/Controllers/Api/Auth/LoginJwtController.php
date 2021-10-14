@@ -23,4 +23,9 @@ class LoginJwtController extends Controller
         auth('api')->logout();
         return response()->json(['message'=>'Logout successfully !!'],200);
     }
+
+    public function refresh(){
+        $token = auth('api')->refresh();
+        return response()->json(['token'=>$token]);
+    }
 }
