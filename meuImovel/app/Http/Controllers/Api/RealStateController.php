@@ -45,6 +45,7 @@ class RealStateController extends Controller
     }
 
     public function store(RealStateRequest $request){
+
         $data = $request->all();
         $images = $request->file('images');
         try{
@@ -52,9 +53,10 @@ class RealStateController extends Controller
                 throw new Exception("Error: Dados inválidos!");
 
             $data['user_id'] = auth('api')->user()->id;
+//            dd($data);
             $realState = $this->realState->create($data);
 
-            if(isset($data['categories'])&&count($data['categories']))
+            if(isset($data['categories']) && count($data['categories']))
                 $realState->categories()->sync($data['categories']);
 
             if($images) {
