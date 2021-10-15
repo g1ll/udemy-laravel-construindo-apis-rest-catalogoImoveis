@@ -89,8 +89,11 @@ class UserController extends Controller
     public function show(User $user){
         try{
             $user = $user->load('profile');
-            $user['profile']['social_networks'] = unserialize($user->profile->social_networks);
-            return response()->json(['data'=>$user,'iprequest'=>request()->ip()],201);
+            if(isset($user['profile']['social_networks']))
+                $user['profile']['social_networks'] = unserialize($user->profile->social_networks);
+            else unset($user['profile']);
+//            return response()->json(['data'=>$user,'iprequest'=>request()->ip()],201); //test ip request
+            return response()->json(['data'=>$user],201);
         }catch(Exception $error){
             return $this->errorMessage([$error->getMessage()],404);
         }
