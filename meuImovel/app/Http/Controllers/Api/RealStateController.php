@@ -35,12 +35,12 @@ class RealStateController extends Controller
     public function show($id){
         try{
 //            dd(auth('api')->user()->id);
-            $real_state_user= auth('api')->user()->real_state()->find($id);
-            $real_state_photos = $real_state_user->load('photos');
+            $real_state_user= auth('api')->user()->real_state();
+            $real_state_photos = $real_state_user->with('photos')->findOrFail($id);
             return response()->json(['data'=>$real_state_photos],201);
         }catch(Exception $error){
             $message = new ApiMessages("An error occurred!",[$error->getMessage()]);
-            return response()->json($message->getMessage(),400);
+            return response()->json($message->getMessage(),404);
         }
     }
 
