@@ -52,9 +52,7 @@ class RealStateController extends Controller
             if(!$data)
                 throw new Exception("Error: Dados inválidos!");
 
-            $data['user_id'] = auth('api')->user()->id;
-//            dd($data);
-            $realState = $this->realState->create($data);
+            $realState = auth('api')->user()->real_state()->create($data);
 
             if(isset($data['categories']) && count($data['categories']))
                 $realState->categories()->sync($data['categories']);
