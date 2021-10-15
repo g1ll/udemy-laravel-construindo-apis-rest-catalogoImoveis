@@ -16,17 +16,17 @@ class RealStateController extends Controller
     public function __construct(RealState $realState)
     {
         $this->realState = $realState;
-        $this->middleware('auth.basic',
-            ['except'=>
-                [
-                    'index',
-                    'show'
-                ]
-        ]);
+//        $this->middleware('auth.basic',
+//            ['except'=>
+//                [
+//                    'index',
+//                    'show'
+//                ]
+//        ]);
     }
 
     public function index(){
-        $realState = $this->realState->paginate(10);
+        $realState = auth('api')->user()->real_state()->paginate(10);
         return response()->json($realState,200);
     }
 
