@@ -17,7 +17,8 @@ class RealState extends Model
         'bedrooms',
         'property_area',
         'total_property_area',
-        'slug'
+        'slug',
+        'user_id'
     ];
 
     protected $table = 'real_state';
