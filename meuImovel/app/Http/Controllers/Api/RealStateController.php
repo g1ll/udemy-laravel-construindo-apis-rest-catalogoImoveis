@@ -100,7 +100,7 @@ class RealStateController extends Controller
         try{
             if(!$data)
                 throw new Exception("Error: Dados inválidos!");
-            $real_state = $this->realState->findOrfail($id);
+            $real_state = auth('api')->user()->real_state()->findOrfail($id);
             $real_state->update($data);
 
             if(isset($data['categories'])&&count($data['categories']))
