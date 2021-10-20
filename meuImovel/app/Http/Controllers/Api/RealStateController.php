@@ -81,7 +81,7 @@ class RealStateController extends Controller
 
     public function destroy($id){
         try{
-            $real_state = $this->realState->findOrfail($id);
+            $real_state = auth('api')->user()->real_state()->findOrfail($id);
             $real_state->delete();
             return response()->json(
                 [   'msg'=>'Registro excluído com sucesso!',
