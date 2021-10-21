@@ -37,7 +37,7 @@ class CreateTablesCountriesStatesCities extends Migration
             $table->string('name');
             $table->string('slug');
             $table->timestamps();
-            $table->foreign('states_id')->refernces('id')->on('states');
+            $table->foreign('states_id')->references('id')->on('states');
         });
     }
 
