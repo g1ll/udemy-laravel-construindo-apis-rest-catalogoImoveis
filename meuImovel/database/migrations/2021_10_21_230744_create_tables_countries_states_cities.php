@@ -13,7 +13,7 @@ class CreateTablesCountriesStatesCities extends Migration
      */
     public function up()
     {
-        Schema::create('tables_countries_states_cities', function (Blueprint $table) {
+        Schema::create('contries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug');
@@ -23,7 +23,7 @@ class CreateTablesCountriesStatesCities extends Migration
 
         Scheme::create('states',function(Blueprint $table){
             $table->id();
-            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('countries_id');
             $table->string('name');
             $table->string('slug');
             $table->string('initials');
