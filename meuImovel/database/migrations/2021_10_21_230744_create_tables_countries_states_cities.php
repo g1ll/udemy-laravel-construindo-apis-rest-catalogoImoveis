@@ -21,7 +21,7 @@ class CreateTablesCountriesStatesCities extends Migration
             $table->timestamps();
         });
 
-        Scheme::create('states',function(Blueprint $table){
+        Schema::create('states',function(Blueprint $table){
             $table->id();
             $table->unsignedBigInteger('countries_id');
             $table->string('name');
@@ -31,7 +31,7 @@ class CreateTablesCountriesStatesCities extends Migration
             $table->foreign('country_id')->refernces('id')->on('countries');
         });
 
-        Scheme::create('cities',function(Blueprint $table){
+        Schema::create('cities',function(Blueprint $table){
             $table->id();
             $table->unsignedBigInteger('states_id');
             $table->string('name');
