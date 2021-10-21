@@ -61,15 +61,15 @@ class UserController extends Controller
             else
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);//using defaul php crypt (today is bcrypt)
 
-            $user = Auth::user()->create($data);
+            $new_user = $this->user->create($data);
             if(isset($data['profile'])){
                 $profile = $data['profile'];
                 $profile['social_networks'] = serialize($profile['social_networks']);
-                $user->profile()->create($profile);
+                $new_user->profile()->create($profile);
             }
             return response()->json(
                 [   'msg'   => 'Novo Usuário inserido com sucesso!',
-                    'data'  => $user
+                    'data'  => $new_user
 //                    'data'=>User::create($data)//Test for unauthenticated
                 ],201);
         }catch(Exception $error) {
