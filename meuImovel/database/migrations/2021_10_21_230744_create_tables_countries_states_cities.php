@@ -22,7 +22,13 @@ class CreateTablesCountriesStatesCities extends Migration
         });
 
         Scheme::create('states',function(Blueprint $table){
-
+            $table->id();
+            $table->unsignedBigInteger('country_id');
+            $table->string('name');
+            $table->string('slug');
+            $table->string('initials');
+            $table->timestamps();
+            $table->foreign('country_id')->refernces('id')->on('countries');
         });
     }
 
