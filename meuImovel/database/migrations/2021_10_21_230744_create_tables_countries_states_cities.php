@@ -28,7 +28,7 @@ class CreateTablesCountriesStatesCities extends Migration
             $table->string('slug');
             $table->string('initials');
             $table->timestamps();
-            $table->foreign('country_id')->refernces('id')->on('countries');
+            $table->foreign('countries_id')->refernces('id')->on('countries');
         });
 
         Schema::create('cities',function(Blueprint $table){
