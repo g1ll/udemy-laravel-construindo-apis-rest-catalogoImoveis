@@ -15,12 +15,12 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->user = $user;
-        $this->middleware('auth.basic',[
-            'except'=>[
-                'index',
-                'show'
-            ]]);
+        $this->user = auth('api')->user();
+//        $this->middleware('auth.basic',[
+//            'except'=>[
+//                'index',
+//                'show'
+//            ]]);
     }
 
     /**
