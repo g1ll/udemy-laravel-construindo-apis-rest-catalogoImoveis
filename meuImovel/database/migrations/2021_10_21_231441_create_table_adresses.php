@@ -15,15 +15,18 @@ class CreateTableAdresses extends Migration
     {
         Schema::create('adresses', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('state_id');//verbose mode
+            $table->foreignId('city_id')->constrained('cities');//new mode
+
             $table->string('adress');
-            $table->unsignedBigInteger('state_id');
-            $table->foreignId('city_id')->constrained('cities');
             $table->string('number');
             $table->string('neighborhood');
             $table->string('complement')->nullable();
             $table->integer('zip_code');
+
             $table->timestamps();
-            $table->foreign('state_id')->references('id')->on('states');
+
+            $table->foreign('state_id')->references('id')->on('states');//verbose mode
         });
     }
 
