@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginJwtController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\RealStatePhotoController;
+use App\Http\Controllers\Api\RealStateSearchController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,4 +55,7 @@ Route::prefix('v1')->group(function (){
             Route::put('/set-thumb/{photoId}/{realStateId}',[RealStatePhotoController::class,'setThumb'])->name('setThumb');
         });
     });
+
+    //Search routes
+    Route::get('/search',[RealStateSearchController::class,'index'])->name('search');
 });
