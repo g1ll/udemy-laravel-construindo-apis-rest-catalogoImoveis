@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\RealState;
+use App\Repository\RealStateRepository;
 
 class RealStateSearchController extends Controller
 {
+
     private $realState;
     public function __construct(RealState $realState){
         $this->realState = $realState;
@@ -14,9 +16,10 @@ class RealStateSearchController extends Controller
 
     public function index()
     {
-        $realState = $this->realState->paginate(10);
+        $repository = new RealStateRepository($this->realState);
+//        $realState = $this->realState->paginate(10);
         return response()->json([
-            'data' => $realState
+            'data' => $repository->getResult()->paginate(10)
         ],200);
     }
 
