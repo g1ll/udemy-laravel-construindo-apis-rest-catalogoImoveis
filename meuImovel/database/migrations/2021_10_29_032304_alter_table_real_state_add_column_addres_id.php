@@ -15,7 +15,7 @@ class AlterTableRealStateAddColumnAddresId extends Migration
     {
         Schema::table('real_state', function (Blueprint $table) {
             $table->unsignedBigInteger('address_id')->nullable();
-            $table->foreign('address_id')->references('id')->on('addresses')
+            $table->foreign('address_id')->references('id')->on('addresses');
         });
     }
 
