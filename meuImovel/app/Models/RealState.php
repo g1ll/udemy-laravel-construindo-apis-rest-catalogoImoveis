@@ -36,7 +36,7 @@ class RealState extends Model
     }
 
     public function address(){
-        $this->belongsTo(Address::class);
+        return $this->belongsTo(Address::class);
     }
 }
 
