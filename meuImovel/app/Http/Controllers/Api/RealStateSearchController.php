@@ -17,6 +17,12 @@ class RealStateSearchController extends Controller
 
     public function index(Request $request)
     {
+        // 1 | RS -> 1 | Pelotas-> 1
+        return $this->realState->whereHas('address', function ($q){
+          $q->where('state_id',1)
+              ->where('city_id',1)
+              ->where('address_id',5);
+        })->get();
         $repository = new RealStateRepository($this->realState);
         if($request->all()){
             if($request->has('conditions'))
