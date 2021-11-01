@@ -58,4 +58,7 @@ Route::prefix('v1')->group(function (){
 
     //Search routes
     Route::get('/search',[RealStateSearchController::class,'index'])->name('search');
+    Route::get('/search/{state}/{city}/{address}',[RealStateSearchController::class,'location'])->name('location');
+    Route::get('/search/{state}/{city}',[RealStateSearchController::class,'location'])->name('location');
+    Route::get('/search/{state}',[RealStateSearchController::class,'location'])->name('location');
 });
