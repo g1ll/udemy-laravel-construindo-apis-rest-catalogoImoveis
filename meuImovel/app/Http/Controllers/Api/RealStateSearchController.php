@@ -11,6 +11,11 @@ class RealStateSearchController extends Controller
 {
 
     private $realState;
+    private $country;
+    private $state;
+    private $city;
+    private $address;
+
     public function __construct(RealState $realState){
         $this->realState = $realState;
     }
@@ -41,5 +46,22 @@ class RealStateSearchController extends Controller
     public function show($id)
     {
         //
+    }
+
+//    public function location($country, $state, $city, $address){
+    public function location( $state, $city, $address=null){
+
+//        $this->country = $country;
+        $this->state = $state;
+        $this->city = $city;
+        $this->address = $address;
+        $foundedRealState = $this->realState->whereHas('address', function ($q){
+            $q->where('state_id',$this->state);
+            if($this->city)
+                $q->where('city_id',$this->city);
+            if($this->address)
+                $q->where('address_id',$this->address);
+        })->get();
+        return response()->json($foundedRealState,200);
     }
 }
