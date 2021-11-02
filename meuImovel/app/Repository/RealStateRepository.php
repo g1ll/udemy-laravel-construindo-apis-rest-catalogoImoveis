@@ -15,9 +15,13 @@ class RealStateRepository extends AbstractRepository
     {
         $location = $this->location;
         return $this->model->whereHas('address', function ($q) use($location){
+            if(isset($location['state'])&&isset($location['city']))
             $q->where('state_id',$location['state'])
-              ->where('city_id',$location['city']);
-//              ->where('address_id',5);
+                ->where('city_id',$location['city']);
+            else if(isset($location['address'])){
+                $q->where('address','like','%'.$location['address'].'%');
+            }
+
         });
     }
 }
