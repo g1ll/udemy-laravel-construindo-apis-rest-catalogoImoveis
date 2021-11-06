@@ -39,7 +39,10 @@ class RealStateSearchController extends Controller
 
         $repository->setLocation($request->all(['state','city','address']));
         return response()->json([
-            'data' => $repository->getResult()->paginate(10)
+            'data' => $repository->getResult()
+                ->with('address')
+                ->with('photos')
+                    ->paginate(10)
         ],200);
     }
 
