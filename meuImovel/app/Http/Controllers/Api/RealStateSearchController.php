@@ -44,9 +44,20 @@ class RealStateSearchController extends Controller
     }
 
 
-    public function show($id)
+    public function show($real_state_id)
     {
-        //
+        try {
+            $realState = $this->realState->with('address')
+                ->with('photos')
+                ->findOrFail($real_state_id);
+            return response()->json([
+                'data' => $realState
+            ],200);
+        }catch( \Exception $e){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ],404);
+        }
     }
 
 //    public function location($country, $state, $city, $address){
