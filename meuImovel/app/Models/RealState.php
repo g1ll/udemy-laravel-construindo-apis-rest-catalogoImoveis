@@ -25,7 +25,7 @@ class RealState extends Model
 
 
     public function getLinksAttribute(){
-        return 'Ok!';
+        return route('real_states.real-states.show',['real_state'=>$this->id]);
     }
 
     public function user(){
