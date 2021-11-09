@@ -21,7 +21,12 @@ class RealState extends Model
     ];
 
     protected $table = 'real_state';
+    protected $appends = ['links'];
 
+
+    public function getLinksAttribute(){
+        return 'Ok!';
+    }
 
     public function user(){
         return $this->belongsTo(User::class); //user_id
