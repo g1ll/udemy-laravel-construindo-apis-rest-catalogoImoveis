@@ -21,11 +21,14 @@ class RealState extends Model
     ];
 
     protected $table = 'real_state';
-    protected $appends = ['links'];
+    protected $appends = ['_links'];
 
 
     public function getLinksAttribute(){
-        return route('real_states.real-states.show',['real_state'=>$this->id]);
+        return [
+            'href'=>route('real_states.real-states.show',['real_state'=>$this->id]),
+            'rel'=>'real-states'
+            ];
     }
 
     public function user(){
