@@ -32,7 +32,9 @@ class RealState extends Model
     }
 
     public function getThumbAttribute(){
-        return $this->photos()->where('is_thumb',1)->first()->photo;
+        $thumb =  $this->photos()->where('is_thumb',1);
+        if(!$thumb->count()) return null;
+        return $thumb->first()->photo;
     }
 
     public function user(){
