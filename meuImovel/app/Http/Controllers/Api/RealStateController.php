@@ -112,7 +112,7 @@ class RealStateController extends Controller
                     $path = $img->store('images', 'public');
                     $imagesUploaded[] = [
                         'photo'=>$path,
-                        'is_thumb'=> false
+                        'is_thumb'=> TRUE
                     ];
                 }
                 $real_state->photos()->createMany($imagesUploaded);
