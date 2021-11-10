@@ -21,14 +21,18 @@ class RealState extends Model
     ];
 
     protected $table = 'real_state';
-    protected $appends = ['_links'];
+    protected $appends = ['_links','_thumb'];
 
-
+    //Accessors
     public function getLinksAttribute(){
         return [
             'href'=>route('real_states.real-states.show',['real_state'=>$this->id]),
             'rel'=>'real-states'
             ];
+    }
+
+    public function getThumbAttribute(){
+        return 'RealState Thumb!';
     }
 
     public function user(){
