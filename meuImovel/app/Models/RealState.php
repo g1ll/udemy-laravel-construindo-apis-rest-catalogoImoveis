@@ -32,7 +32,7 @@ class RealState extends Model
     }
 
     public function getThumbAttribute(){
-        return 'RealState Thumb!';
+        return $this->photos()->where('is_thumb',1)->first()->photo;
     }
 
     public function user(){
