@@ -26,7 +26,7 @@ class RealState extends Model
     //Accessors
     public function getLinksAttribute(){
         return [
-            'href'=>route('real_states.real-states.show',['real_state'=>$this->id]),
+            'href'=>route('real_states.real-states.show',$this->id),
             'rel'=>'real-states'
             ];
     }
@@ -34,7 +34,7 @@ class RealState extends Model
     public function getThumbAttribute(){
         $thumb =  $this->photos()->where('is_thumb',1);
         if(!$thumb->count()) return null;
-        return $thumb->first()->photo;
+        return asset('public/storage/'.$thumb->first()->photo);
     }
 
     public function user(){
